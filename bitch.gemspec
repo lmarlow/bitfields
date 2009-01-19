@@ -1,16 +1,28 @@
+# -*- encoding: utf-8 -*-
+
 Gem::Specification.new do |s|
-  s.name = "bitch"
-  s.version = "0.0.2"
-  s.date = "2009-01-02"
+  s.name = %q{bitch}
+  s.version = "0.1.0"
+
+  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["James Sanders"]
-  s.email = "sanderjd@gmail.com"
-  s.summary = "Bitch provides simple composition of bit fields"
-  s.homepage = "http://github.com/sanderjd/bitch"
-  s.description = "Spurred by unneeded complexity in projects such as BinData, Bitch provides dead-simple composition and naming of bit fields"
+  s.date = %q{2009-01-18}
+  s.description = %q{A very simple library for building binary data in a declarative manner}
+  s.email = %q{sanderjd@gmail.com}
+  s.files = ["README", "Rakefile", "demo.rb", "lib/bitch.rb", "lib/bits.rb"]
   s.has_rdoc = true
-  s.files = ["README",
-             "bitch.gemspec",
-             "demo.rb",
-             "lib/bits.rb", 
-             "lib/bitch.rb"]
+  s.homepage = %q{http://github.com/sanderjd/bitch}
+  s.require_paths = ["lib"]
+  s.rubygems_version = %q{1.3.1}
+  s.summary = %q{Bitch - A simple binary message building helper}
+
+  if s.respond_to? :specification_version then
+    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
+    s.specification_version = 2
+
+    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+    else
+    end
+  else
+  end
 end
