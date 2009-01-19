@@ -50,6 +50,8 @@ class Bits
       "%0#{length}b" % Integer(bits)
     when Bits
       bits.bits
+    when Bitch
+      bits.get_bits.bits
     else
       raise TypeError, "Unsupported data type #{bits.class}"
     end
