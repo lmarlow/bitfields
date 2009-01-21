@@ -53,7 +53,8 @@ class Bits
     when Bitch
       bits.get_bits.bits
     else
-      raise TypeError, "Unsupported data type #{bits.class}"
+      warn "Unsupported data #{bits} (#{bits.class}) - defaulting to #{length} length zero field"
+      "%0#{length}b" % 0
     end
   end
 end
