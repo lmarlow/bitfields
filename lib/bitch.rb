@@ -4,17 +4,17 @@ class Bitch
   
   # Class methods
   
-  def self.template(name, &block)
-    name = symbol_if_string(name)
-    templates[name] = self.new
-    yield templates[name]
+  def self.template(template_name, &block)
+    template_name = symbol_if_string(template_name)
+    templates[template_name] = self.new
+    yield templates[template_name]
     nil
   end
  
-  def self.create(name, params = {})
-    name = symbol_if_string(name)
-    params.each_pair { |k,v| templates[name][k] = v }
-    templates[name]
+  def self.create(template_name, params = {})
+    template_name = symbol_if_string(template_name)
+    params.each_pair { | field_name, value | templates[template_name][field_name] = value }
+    templates[template_name]
   end
 
   def self.compose(&block)
@@ -30,55 +30,61 @@ class Bitch
   def hex_string; get_bits.hex_string end
   def oct_string; get_bits.oct_string end
 
-  def add(name, object)
-    name = symbol_if_string(name)
-    fields << { name => object.get_bits }
+  def add(field_name, object)
+    field_name = symbol_if_string(field_name)
+    field_names << field_name
+    field_values << object.get_bits
   end
 
-  def bring(name, params = {})
+  def bring(template_name, params = {})
     name = symbol_if_string(name)
     object = Bitch.create(name, params)
-    fields << { name => object.get_bits }
+    field_names << template_name 
+    field_values << object.get_bits
   end
 
-  def bits(name, params = {})
-    name = symbol_if_string(name)
+  def bits(field_name, params = {})
+    field_name = symbol_if_string(field_name)
     value = params.key?(:value) ? params[:value] : 0
     length = params.key?(:length) ? params[:length] : 0
-    fields << { name => Bits.new(value, length) }
+    field_names << field_name
+    field_values << Bits.new(value, length)
   end
 
   def get_bits
-    fields.inject(nil) do |composed, field|
-      bits = field.values.first
-      composed ? composed + bits : bits
+    field_values.inject(nil) do |final, value|
+      final ? final + value : value
     end
   end
 
-  def [](name)
-    name = symbol_if_string(name)
-    fields.select { |field| field.key?(name) }.first.values.first
+  def [](field_name)
+    field_name = symbol_if_string(field_name)
+    field_values[field_names.index(field_name)]
   end
 
-  def []=(name, value)
-    name = symbol_if_string(name)
-    element_array = fields.select { |field| field.key?(name) }
-    element = element_array.first.values.first unless element_array.empty?
-    element.set(value) unless element.nil?
+  def []=(field_name, value)
+    field_name = symbol_if_string(field_name)
+    field_values[field_names.index(field_name)] = value
   end
 
   private
 
-  def symbol_if_string(name)
-    name.to_sym if name.kind_of? String
+  def field_names
+    @field_names ||= Array.new
   end
 
-  def fields
-    @fields ||= Array.new
+  def field_values
+    @field_values ||= Array.new
   end
 
   def self.templates
     @@templates ||= Hash.new
+  end
+
+  # Helpers
+
+  def symbol_if_string(name)
+    name.to_sym if name.kind_of? String
   end
 end
 
