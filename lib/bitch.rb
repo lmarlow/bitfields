@@ -31,20 +31,20 @@ class Bitch
   def oct_string; get_bits.oct_string end
 
   def add(field_name, object)
-    field_name = symbol_if_string(field_name)
+    field_name = Bitch.symbol_if_string(field_name)
     field_names << field_name
     field_values << object.get_bits
   end
 
   def bring(template_name, params = {})
-    name = symbol_if_string(name)
+    name = Bitch.symbol_if_string(name)
     object = Bitch.create(name, params)
     field_names << template_name 
     field_values << object.get_bits
   end
 
   def bits(field_name, params = {})
-    field_name = symbol_if_string(field_name)
+    field_name = Bitch.symbol_if_string(field_name)
     value = params.key?(:value) ? params[:value] : 0
     length = params.key?(:length) ? params[:length] : 0
     field_names << field_name
@@ -58,16 +58,13 @@ class Bitch
   end
 
   def [](field_name)
-    field_name = symbol_if_string(field_name)
-    field_values[field_names.index(field_name)]
+    field_name = Bitch.symbol_if_string(field_name)
+    field_values[field_names.index(field_name)] if field_names.index(field_name)
   end
 
   def []=(field_name, value)
-    field_name = symbol_if_string(field_name)
-    field_values[field_names.index(field_name)] = value
+    self[field_name].set(value) if self[field_name]
   end
-
-  private
 
   def field_names
     @field_names ||= Array.new
@@ -77,14 +74,16 @@ class Bitch
     @field_values ||= Array.new
   end
 
+  private
+
   def self.templates
     @@templates ||= Hash.new
   end
 
   # Helpers
 
-  def symbol_if_string(name)
-    name.to_sym if name.kind_of? String
+  def self.symbol_if_string(name)
+    name.kind_of?(String) ? name.to_sym : name
   end
 end
 
