@@ -50,7 +50,7 @@ class Bits
       "%0#{length}b" % Integer(bits)
     when Bits
       bits.bits
-    when Bitch
+    when BitFields
       bits.get_bits.bits
     else
       warn "Unsupported data #{bits} (#{bits.class}) - defaulting to #{length} length zero field"

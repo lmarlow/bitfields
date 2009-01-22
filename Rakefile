@@ -1,7 +1,7 @@
 begin
   require 'rubygems'
 rescue Exception
-  puts 'RubyGems is not install. See http://www.rubygems.org/read/chapter/3 for instructions.'
+  puts 'RubyGems is not installed. See http://www.rubygems.org/read/chapter/3 for instructions.'
 end
 
 begin
@@ -20,17 +20,17 @@ end
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |s|
-    s.name = "bitch"
-    s.summary = "Bitch - A simple binary message building helper"
-    s.description = "A very simple library for building binary data in a declarative manner"
+    s.name = "bitfields"
+    s.summary = "Simple named bit fields"
+    s.description = "A very simple library for building binary data by declaring named bit fields"
     s.email = 'sanderjd@gmail.com'
-    s.homepage = 'http://github.com/sanderjd/bitch'
+    s.homepage = 'http://github.com/sanderjd/bitfields'
     s.authors = ['James Sanders']
     s.has_rdoc = true
     s.files = ["README",
                "Rakefile",
                "demo.rb",
-               "lib/bitch.rb", 
+               "lib/bitfields.rb", 
                "lib/bits.rb"]
   end
 rescue LoadError
