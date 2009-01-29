@@ -13,8 +13,9 @@ class BitFields
  
   def self.create(template_name, params = {})
     template_name = symbol_if_string(template_name)
-    params.each_pair { | field_name, value | templates[template_name][field_name] = value }
-    templates[template_name]
+    instance = Marshal.load(Marshal.dump(templates[template_name])) # Deep clone
+    params.each_pair { | field_name, value | instance[field_name] = value }
+    instance
   end
 
   def self.compose(&block)
